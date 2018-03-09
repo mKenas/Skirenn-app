@@ -12,7 +12,7 @@
     "adresse"  => "<p class='feil'>Adressen har feil format, skal inneholder bokstaver, tall og mellomrom.</p>",
     "postNum" => "<p class='feil'>PostNummer har feil format, skal være 4 siffert tall.</p>",
     "poststed" => "<p class='feil'>Poststedet har feil format, skal være bokstaver eller '.', '-' eller ' '.</p>",
-    "telefon" => "<p class='feil'>elefonnummeret har feil format, skal være 8 siffer.</p>"
+    "telefon" => "<p class='feil'>Telefonnummeret har feil format, skal være 8 siffer.</p>"
 
     );
   $regularUtrykk = array(
@@ -24,7 +24,6 @@
     "telefon" => "/^[0-9]{8}$/"
 
   );
-
 
   ?>
  <html>
@@ -97,38 +96,32 @@
                  die("Feil i kobling til databasen!");
              }
 
-
              $db->set_charset("utf8");
-             $foresporring= "select Type ,Sted,Dato from Øvels;";
+             $foresporring= "select ØvelsId ,Type ,Sted,Dato from Øvels;";
              $res=$db->query($foresporring);
              if ($res->num_rows >0){
                while ($rad =$res->fetch_assoc()) {
 
-                 echo "<option>" . $rad['Type'] ." - ". $rad['Sted'] ." - ". $rad['Dato'] . "</option>";
+                 echo "<option name='radio' value='" . $rad['ØvelsId']. "'>" . $rad['Type'] ." - ". $rad['Sted'] ." - ". $rad['Dato'] . "</option>";
                }
              }
 
              mysqli_close($db);
 
-
              ?>
 
           </select>
-
          </div>
-
-
-
-
-
 
        <input type="submit" name="register" value="Register">
        <?php
+
          $feilMelding ="";
          $valederingErOK = true;
 
        if(isset($_REQUEST["register"]))
         {
+          $oveslesID =(int)$_REQUEST['ovelseInfo'];
           $felter= array(
             "navn"=> $_REQUEST["fornavn"],
             "etternavn" => $_REQUEST["etternavn"],
@@ -140,11 +133,13 @@
 
 
             foreach ($felter as $key => $verdi) {
-              if (!empty($verdi)){
+              if (!empty($verdi) ){
 
                 $feilMelding.= preg_match($regularUtrykk[$key],$verdi) ? "" : $feilMeldinger[$key];
 
               }
+
+              else $feilMelding .= "<p class='feil'> " .$key .  " må fylles ut</p>";
             }
 
             if($feilMelding != ""){
@@ -158,8 +153,7 @@
                 if ($_REQUEST["persontype"]=="Utøver"){
                   $utover = new Utover($_REQUEST["fornavn"],$_REQUEST["etternavn"],
                                        $_REQUEST["adresse"],$_REQUEST["postnr"],
-                                       $_REQUEST["poststed"],$_REQUEST["telefon"],$_REQUEST["ovelseInfo"],$_REQUEST["nasjonaliteten"]);
-
+                                       $_REQUEST["poststed"],$_REQUEST["telefon"],$oveslesID,$_REQUEST["nasjonaliteten"]);
                     $navn=$utover->getNavn();
                     $etternavn=$utover->getEtternavn();
                     $adresse=$utover->getAdresse();
@@ -167,15 +161,17 @@
                     $poststed=$utover->getPostSted();
                     $telefon=$utover->getTelefon();
                     $nasjinalitet=$utover->getNasjon();
-                    $øvelsesInfo = $utover->getØvelsesInfo();
-                    $utover->settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesInfo,$nasjinalitet);
+                    $øvelsesId = $utover->getØvelsId();
+                    $utover->settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesId,$nasjinalitet);
+
+
 
                   }
 
                 else{
                   $publikum = new Publikum($_REQUEST["fornavn"],$_REQUEST["etternavn"],
                                          $_REQUEST["adresse"],$_REQUEST["postnr"],
-                                         $_REQUEST["poststed"],$_REQUEST["telefon"],$_REQUEST["ovelseInfo"],$_REQUEST["bilettType"]);
+                                         $_REQUEST["poststed"],$_REQUEST["telefon"],$oveslesID,$_REQUEST["bilettType"]);
 
 
                    $navn=$publikum->getNavn();
@@ -185,8 +181,8 @@
                    $poststed=$publikum->getPostSted();
                    $telefon=$publikum->getTelefon();
                    $bilettType=$publikum->getBilettType();
-                   $øvelsesInfo = $publikum->getØvelsesInfo();
-                   $publikum->settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesInfo,$bilettType);
+                   $øvelsesId = $publikum->getØvelsId();
+                   $publikum->settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesId,$bilettType);
 
                     }
                 }

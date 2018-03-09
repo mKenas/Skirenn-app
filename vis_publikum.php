@@ -35,8 +35,10 @@
         {
         $db->set_charset("utf8");
 
-        $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,ØvelsesInfo, BillettType ";
-        $foresporring .= "from Person, Publikum WHERE Person.PersonId = Publikum.PersonId;";
+        $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,Type,Sted,Dato, BillettType ";
+        $foresporring .= "from Person , Publikum, Øvels WHERE Person.PersonId = Publikum.PersonId ";
+        $foresporring .= "And Person.ØvelsesId = Øvels.ØvelsId;";
+
         $resultat = $db->query($foresporring);
         if ($resultat->num_rows > 0) {
             while($rad = $resultat->fetch_assoc()) {
@@ -47,7 +49,7 @@
               echo "<td>" . $rad["PostNum"] . "</td>";
               echo "<td>" . $rad["Poststed"] . "</td>";
               echo "<td>" . $rad["Telefonnr"] . "</td>";
-              echo "<td>" . $rad["ØvelsesInfo"] . "</td></tr>";
+              echo "<td>" . $rad["Type"]." ".$rad["Sted"]." ".$rad["Dato"] . "</td></tr>";
             }
         }
         else {

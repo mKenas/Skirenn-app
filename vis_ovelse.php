@@ -62,31 +62,64 @@
 
               if (isset($_REQUEST["rediger". $id])){
 
-
-                  $orgindato = str_replace('T', ' ', $_REQUEST['dato'. $id]);
-
+                $orgindato = str_replace('T', ' ', $_REQUEST['dato'. $id]);
                 $update="update Øvels set Type='". $_REQUEST['type'. $id] . "',Sted ='".$_REQUEST['sted'. $id]. "',Dato='";
                 $update .= $orgindato . "'WHERE ØvelsId =" .$rad['ØvelsId'] . ";";
                 $res2 = $db->query($update);
                 if($res2){
                   echo "<p class='velykket'>Data er oppdatert! </p>";
                 }
-
               }
-
             }
 
-
-
           $db->close();
-
-
       }
     }
 
 
 
        ?>
+       <tr>
+
+       <td><input type="text" name="legg-til-type" value="" placeholder="Slalom, Langrenn"></td>
+       <td><input type="text" name="legg-til-sted" value="" placeholder="Oslo"></td>
+       <td><input class="legg-til-dato" type="datetime-local" name="legg-til-dato" value=""></td>
+       <td><input type="submit" name="legg-til" value="Legg til øvelse"></td>
+       </tr>
+       <?php
+        if (isset($_REQUEST["legg-til"])){
+          $db = mysqli_connect("localhost","root","","vm_ski");
+          if(!$db)
+          {
+              die("Feil i kobling til databasen!");
+          }
+          else
+          {
+          $db->set_charset("utf8");
+          $type=$_REQUEST['legg-til-type'];
+          $sted=$_REQUEST['legg-til-sted'];
+          $dato=$_REQUEST['legg-til-dato'];
+
+          if (!empty($type) && !empty($sted) && !empty($dato))
+          {
+            $orgindato = str_replace('T', ' ', $dato);
+            $insert="insert into  Øvels  (Type,Sted,Dato) Values('";
+            $insert .=$type ."' ,'" . $sted . "' ,'" . $orgindato . "');";
+
+            $res3 = $db->query($insert);
+            if($res3){
+              echo "<p class='velykket'>Ny øvelese er lagt inn! </p>";
+            }
+          }
+          else {
+            echo "<p class='feil'> Du må oppgi type, sted og dato for hver øvelse.</p>";
+        }
+
+        $db->close();
+
+      }
+    }
+        ?>
       </table>
         </form>
 

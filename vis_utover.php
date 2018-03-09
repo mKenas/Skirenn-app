@@ -35,8 +35,9 @@
         {
         $db->set_charset("utf8");
 
-        $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,ØvelsesInfo, Nasjonalitet ";
-        $foresporring .= "from Person, Utøver WHERE Person.PersonId = Utøver.PersonId;";
+        $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,Type,Sted,Dato, Nasjonalitet ";
+        $foresporring .= "from  Person , Utøver, Øvels WHERE Person.PersonId = Utøver.PersonId ";
+        $foresporring .= "And Person.ØvelsesId = Øvels.ØvelsId;";
         $resultat = $db->query($foresporring);
 
         if ($resultat->num_rows > 0) {
@@ -48,7 +49,7 @@
               echo "<td>" . $rad["PostNum"] . "</td>";
               echo "<td>" . $rad["Poststed"] . "</td>";
               echo "<td>" . $rad["Telefonnr"] . "</td>";
-              echo "<td>" . $rad["ØvelsesInfo"] . "</td></tr>";
+              echo "<td>" . $rad["Type"]." ".$rad["Sted"]." ".$rad["Dato"] . "</td></tr>";
             }
         } else {
             $ingendata = true;

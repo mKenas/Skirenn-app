@@ -14,14 +14,14 @@ class Publikum extends Person
   function getPublikumPersonId(){return $this->publikumPersonId;}
   function setBilettType($bilettType){ $this->bilettType = $bilettType;}
   function setPublikumPersonId($publikumPersonId){$this->publikumPersonId=$publikumPersonId;}
-  function __construct($navn=null,$etternavn=null,$adresse=null,$postNum=null,$postSted=null,$telefon=null,$øvelsesInfo=null,$bilettType=null)
+  function __construct($navn=null,$etternavn=null,$adresse=null,$postNum=null,$postSted=null,$telefon=null,$ØvelsId=null,$bilettType=null)
   {
-     parent::__construct($navn,$etternavn,$adresse,$postNum,$postSted,$telefon,$øvelsesInfo);
+     parent::__construct($navn,$etternavn,$adresse,$postNum,$postSted,$telefon,$ØvelsId);
      $this->bilettType = $bilettType;
   }
 
 
-  function settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesInfo,$bilettType){
+  function settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$ØvelsId,$bilettType){
 
     $db=mysqli_connect("localhost","root","","vm_ski");
     if(!$db)
@@ -30,9 +30,9 @@ class Publikum extends Person
     }
     $db->set_charset("utf8");
     $foresporring = "Insert into Person (Fornavn,Etternavn,Adresse,";
-    $foresporring .= "PostNum,Poststed,Telefonnr,ØvelsesInfo)";
+    $foresporring .= "PostNum,Poststed,Telefonnr,ØvelsesId)";
     $foresporring .= "Values ('$navn','$etternavn','$adresse',";
-    $foresporring .= "'$postnr','$poststed','$telefon','$øvelsesInfo');";
+    $foresporring .= "'$postnr','$poststed','$telefon','$ØvelsId');";
 
     if ($db->query($foresporring) === TRUE) {
         $this->publikumPersonId=  $db->insert_id;
