@@ -21,8 +21,6 @@
         <th>Poststed</th>
         <th>Telefon</th>
         <th>Øvelses Informasjon</th>
-
-
       </tr>
       <?php
         $ingendata= false;

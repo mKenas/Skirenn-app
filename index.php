@@ -4,26 +4,11 @@
   include 'Person.php';
   include 'Utover.php';
   include 'Publikum.php';
-  session_start();
+  include 'Tilkobling.php';
+  include 'Validering.php';
+
   ini_set('default_charset', 'utf-8');
-  $feilMeldinger = array(
-    "navn" => "<p class='feil'> Navnet har feil format, skal være bokstaver eller '.', '-' eller ' '.</p>",
-    "etternavn" => "<p class='feil'>Etternavnet har feil format, skal være bokstaver eller '.', '-' eller ' '.</p>",
-    "adresse"  => "<p class='feil'>Adressen har feil format, skal inneholder bokstaver, tall og mellomrom.</p>",
-    "postNum" => "<p class='feil'>PostNummer har feil format, skal være 4 siffert tall.</p>",
-    "poststed" => "<p class='feil'>Poststedet har feil format, skal være bokstaver eller '.', '-' eller ' '.</p>",
-    "telefon" => "<p class='feil'>Telefonnummeret har feil format, skal være 8 siffer.</p>"
 
-    );
-  $regularUtrykk = array(
-    "navn"=> "/^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/",
-    "etternavn" => "/^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/",
-    "adresse" => "/^[0-9a-zA-ZæøåÆØÅ\ \.\-\,]{2,50}$/",
-    "postNum" => "/^[0-9]{4}$/",
-    "poststed" => "/^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/",
-    "telefon" => "/^[0-9]{8}$/"
-
-  );
 
   ?>
  <html>
@@ -116,8 +101,7 @@
        <input type="submit" name="register" value="Register">
        <?php
 
-         $feilMelding ="";
-         $valederingErOK = true;
+
 
        if(isset($_REQUEST["register"]))
         {
@@ -131,24 +115,7 @@
             "telefon" => $_REQUEST["telefon"]
           );
 
-
-            foreach ($felter as $key => $verdi) {
-              if (!empty($verdi) ){
-
-                $feilMelding.= preg_match($regularUtrykk[$key],$verdi) ? "" : $feilMeldinger[$key];
-
-              }
-
-              else $feilMelding .= "<p class='feil'> " .$key .  " må fylles ut</p>";
-            }
-
-            if($feilMelding != ""){
-              echo "<br/>$feilMelding,";
-              $valederingErOK = false;
-
-              }
-
-            if($valederingErOK){
+            if(validering($felter)){
 
                 if ($_REQUEST["persontype"]=="Utøver"){
                   $utover = new Utover($_REQUEST["fornavn"],$_REQUEST["etternavn"],
