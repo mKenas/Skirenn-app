@@ -15,7 +15,7 @@ h2{
     width: 100%;
 }
 
-.topnav a {
+.topnav a ,.bruker{
     float: left;
     color: #f2f2f2;
     text-align: center;
@@ -35,9 +35,14 @@ h2{
     color: white;
 }
 
+.registert{
+
+float: right;
+}
+
 
 .myform{
-width: 450px;
+width: 500px;
 height: 700px;
 background-color: #f2f2f2;
 margin: 2vh auto;
@@ -52,7 +57,7 @@ flex-direction: column;
   margin: 8px 30px;
 }
 
-input[type=text]{
+input[type=text],input[type=password]{
 border-radius: 5px;
 min-height: 30px;
 border: none;

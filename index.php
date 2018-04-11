@@ -1,16 +1,20 @@
 
- <!DOCTYPE html>
  <?php
+  session_start();
   include 'Person.php';
   include 'Utover.php';
   include 'Publikum.php';
-  include 'Tilkobling.php';
   include 'Validering.php';
-
+  include 'Tilkobling.php';
   ini_set('default_charset', 'utf-8');
+  $erInnlogget = isset($_SESSION["erInnlogget"]);
+  if($erInnlogget){
 
 
+
+  }
   ?>
+<!DOCTYPE html>
  <html>
    <head>
      <meta charset="utf-8">
@@ -21,6 +25,20 @@
         <a href="vis_publikum.php">Vis Publikum</a>
         <a href="vis_utover.php">Vis Utøvere</a>
         <a href="vis_ovelse.php">Øvelser</a>
+        <div class="registert">
+          <?php
+            if ($erInnlogget){
+              echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
+              echo "<a href='Logg_ut.php'>Logg ut</a>";
+
+
+            }
+            else {
+              echo '<a href="Logg_inn.php">Logg inn</a>';
+              echo '<a href="Register.php">Register</a>';
+            }
+           ?>
+        </div>
       </div>
    </head>
    <body>
@@ -28,16 +46,25 @@
 
      <form class="myform" action="" method="post">
        <label for="fornavn">Fornavn</label>
-       <input type="text" name="fornavn" value="">
+       <input type="text" name="fornavn" value="" id="fornavn" onchange=testFornavn(this.value);>
 
        <label for="etternavn">Etternavn</label>
-       <input type="text" name="etternavn" value="">
+       <input type="text" name="etternavn" value="" id="etternavn" onchange=testEtternavn(this.value);>
        <div class="person-type">
          <label for="">Jeg er: </label>
          <label for="">Publikum</label>
          <input type="radio" name="persontype" value="Publikum" id="radio1"checked >
           <label for="">Utøver</label>
-         <input type="radio" name="persontype" value="Utøver" id="radio2">
+
+         <?php
+           if ($erInnlogget){
+             echo  '<input type="radio" name="persontype" value="Utøver" id="radio2">';
+           }
+           else {
+             echo  '<input type="radio" name="persontype" value="Utøver" id="radio2" disabled>';
+             echo " <a href='Logg_inn.php'>logg inn</a> for å registere Utøvere.";
+           }
+          ?>
        </div>
 
         <div id="bilett-type">
@@ -58,30 +85,22 @@
            </select>
         </div>
        <label for="adresse">Adresse</label>
-       <input type="text" name="adresse" value="">
+       <input type="text" name="adresse" value="" id="adresse">
 
        <label for="postnr">PostNr</label>
-       <input type="text" name="postnr" value="">
+       <input type="text" name="postnr" value="" id="postnr">
 
        <label for="poststed">Poststed</label>
-       <input type="text" name="poststed" value="">
+       <input type="text" name="poststed" value="" id="poststed">
 
        <label for="telefon">Telefon</label>
-       <input type="text" name="telefon" value="">
+       <input type="text" name="telefon" value="" id="telefon">
 
        <div id="type-øvelse">
 
           <label for="">Øvelses Informasjon </label>
           <select  name="ovelseInfo">
             <?php
-
-             $db=mysqli_connect("localhost","root","","vm_ski");
-             if(!$db)
-             {
-                 die("Feil i kobling til databasen!");
-             }
-
-             $db->set_charset("utf8");
              $foresporring= "select ØvelsId ,Type ,Sted,Dato from Øvels;";
              $res=$db->query($foresporring);
              if ($res->num_rows >0){
@@ -91,7 +110,6 @@
                }
              }
 
-             mysqli_close($db);
 
              ?>
 
@@ -118,6 +136,7 @@
             if(validering($felter)){
 
                 if ($_REQUEST["persontype"]=="Utøver"){
+
                   $utover = new Utover($_REQUEST["fornavn"],$_REQUEST["etternavn"],
                                        $_REQUEST["adresse"],$_REQUEST["postnr"],
                                        $_REQUEST["poststed"],$_REQUEST["telefon"],$oveslesID,$_REQUEST["nasjonaliteten"]);

@@ -59,6 +59,15 @@ CREATE TABLE `Utøver` (
   ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+  CREATE TABLE `Bruker` (
+    `BrukerId` INT NOT NULL AUTO_INCREMENT,
+    `BrukerNavn` VARCHAR(45) NOT NULL,
+    `Passord` VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`BrukerId`))
+    ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
   INSERT INTO `Øvels` (`ØvelsId`, `Dato`, `Type`, `Sted`)
   VALUES (NULL, '2018-04-01 09:00:00', 'Alpint', 'Oslo'),
   (NULL, '2018-05-16 08:00:00', 'Hopp', 'Bergen'),
@@ -88,3 +97,8 @@ CREATE TABLE `Utøver` (
   (NULL, 'Norge', 6),
     (NULL, 'Sverige', 7),
   (NULL, 'Danmark', 8);
+
+
+
+  INSERT INTO `Bruker` (`BrukerId`, `BrukerNavn`, `Passord`)
+  VALUES (NULL, 'sondre', SHA('morgedal'));

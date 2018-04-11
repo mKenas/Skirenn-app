@@ -1,3 +1,9 @@
+<?php
+session_start();
+include "Tilkobling.php";
+$erInnlogget = isset($_SESSION["erInnlogget"]);
+
+ ?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -8,6 +14,20 @@
        <a class="active" href="vis_publikum.php">Vis Publikum</a>
        <a href="vis_utover.php">Vis Utøvere</a>
        <a href="vis_ovelse.php">Øvelser</a>
+       <div class="registert">
+         <?php
+           if ($erInnlogget){
+             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
+             echo "<a href='Logg_ut.php'>Logg ut</a>";
+
+
+           }
+           else {
+             echo '<a href="Logg_inn.php">Logg inn</a>';
+             echo '<a href="Register.php">Register</a>';
+           }
+          ?>
+       </div>
 
      </div>
   </head>
@@ -25,20 +45,11 @@
       </tr>
 
       <?php
+        
         $ingendata= false;
-        $db = mysqli_connect("localhost","root","","vm_ski");
-        if(!$db)
-        {
-            die("Feil i kobling til databasen!");
-        }
-        else
-        {
-        $db->set_charset("utf8");
-
         $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,Type,Sted,Dato, BillettType ";
         $foresporring .= "from Person , Publikum, Øvels WHERE Person.PersonId = Publikum.PersonId ";
         $foresporring .= "And Person.ØvelsesId = Øvels.ØvelsId;";
-
         $resultat = $db->query($foresporring);
         if ($resultat->num_rows > 0) {
             while($rad = $resultat->fetch_assoc()) {
@@ -57,7 +68,6 @@
           $db->close();
 
         }
-      }
 
        ?>
       </table>

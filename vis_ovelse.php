@@ -1,3 +1,8 @@
+<?php
+session_start();
+include "Tilkobling.php";
+$erInnlogget = isset($_SESSION["erInnlogget"]);
+ ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,6 +14,20 @@
        <a href="vis_publikum.php">Vis Publikum</a>
        <a href="vis_utover.php">Vis Utøvere</a>
        <a class="active" href="vis_ovelse.php">Øvelser</a>
+       <div class="registert">
+         <?php
+           if ($erInnlogget){
+             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
+             echo "<a href='Logg_ut.php'>Logg ut</a>";
+
+
+           }
+           else {
+             echo '<a href="Logg_inn.php">Logg inn</a>';
+             echo '<a href="Register.php">Register</a>';
+           }
+          ?>
+       </div>
      </div>
   </head>
   <body>
@@ -25,15 +44,8 @@
       </tr>
 
       <?php
-
-        $db = mysqli_connect("localhost","root","","vm_ski");
-        if(!$db)
+        if($erInnlogget)
         {
-            die("Feil i kobling til databasen!");
-        }
-        else
-        {
-        $db->set_charset("utf8");
 
         $foresporring = "select ØvelsId, Type, Sted, Dato ";
         $foresporring .= "from Øvels";
@@ -72,30 +84,18 @@
               }
             }
 
-          $db->close();
       }
-    }
 
 
 
-       ?>
-       <tr>
+       echo '<tr>';
+       echo '<td><input type="text" name="legg-til-type" value="" placeholder="Slalom, Langrenn"></td>';
+       echo '<td><input type="text" name="legg-til-sted" value="" placeholder="Oslo"></td>';
+       echo '<td><input class="legg-til-dato" type="datetime-local" name="legg-til-dato" value=""></td>';
+       echo  '<td><input type="submit" name="legg-til" value="Legg til øvelse"></td>';
+       echo '</tr>';
 
-       <td><input type="text" name="legg-til-type" value="" placeholder="Slalom, Langrenn"></td>
-       <td><input type="text" name="legg-til-sted" value="" placeholder="Oslo"></td>
-       <td><input class="legg-til-dato" type="datetime-local" name="legg-til-dato" value=""></td>
-       <td><input type="submit" name="legg-til" value="Legg til øvelse"></td>
-       </tr>
-       <?php
         if (isset($_REQUEST["legg-til"])){
-          $db = mysqli_connect("localhost","root","","vm_ski");
-          if(!$db)
-          {
-              die("Feil i kobling til databasen!");
-          }
-          else
-          {
-          $db->set_charset("utf8");
           $type=$_REQUEST['legg-til-type'];
           $sted=$_REQUEST['legg-til-sted'];
           $dato=$_REQUEST['legg-til-dato'];
@@ -116,9 +116,14 @@
         }
 
         $db->close();
-
-      }
     }
+
+  }
+
+  else{
+
+    echo "<p class='feil'> Du må logge inn for å kunne adminstere øvelser!</p>";
+  }
         ?>
       </table>
         </form>

@@ -1,5 +1,7 @@
 <?php
 
+include 'Tilkobling.php';
+
 /**
  *
  */
@@ -22,13 +24,7 @@ class Publikum extends Person
 
 
   function settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$ØvelsId,$bilettType){
-
-    $db=mysqli_connect("localhost","root","","vm_ski");
-    if(!$db)
-    {
-        die("Feil i kobling til databasen!");
-    }
-    $db->set_charset("utf8");
+    global $db;
     $foresporring = "Insert into Person (Fornavn,Etternavn,Adresse,";
     $foresporring .= "PostNum,Poststed,Telefonnr,ØvelsesId)";
     $foresporring .= "Values ('$navn','$etternavn','$adresse',";
@@ -46,7 +42,6 @@ class Publikum extends Person
           {
               echo "Feil i registrering!";
           }
-          mysqli_close($db);
     }
 
 }
