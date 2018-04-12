@@ -43,13 +43,17 @@
    </head>
    <body>
      <h2>Skirenn Registeret</h2>
-
      <form class="myform" action="" method="post">
-       <label for="fornavn">Fornavn</label>
-       <input type="text" name="fornavn" value="" id="fornavn" onchange=testFornavn(this.value);>
-
-       <label for="etternavn">Etternavn</label>
-       <input type="text" name="etternavn" value="" id="etternavn" onchange=testEtternavn(this.value);>
+    <p class="element">
+       <label for="fornavn">Fornavn</label> <br>
+       <input type="text" name="fornavn" value="" id="fornavn" size="45">
+       <span>Navnet har feil format, skal inneholde bokstaver eller '.', '-' ,eller mellomrom</span>
+      </p>
+      <p class="element">
+       <label for="etternavn">Etternavn</label><br>
+       <input type="text" name="etternavn" value="" id="etternavn" size="45">
+       <span>Etternavnet har feil format, skal inneholde bokstaver eller '.', '-' eller mellomrom</span>
+     </p>
        <div class="person-type">
          <label for="">Jeg er: </label>
          <label for="">Publikum</label>
@@ -86,15 +90,23 @@
         </div>
        <label for="adresse">Adresse</label>
        <input type="text" name="adresse" value="" id="adresse">
+       <span>Adressen har feil format, skal inneholder bokstaver, tall og mellomrom.</span>
+
 
        <label for="postnr">PostNr</label>
        <input type="text" name="postnr" value="" id="postnr">
+       <span>PostNummer har feil format, skal være 4 siffert tall.</span>
+
 
        <label for="poststed">Poststed</label>
        <input type="text" name="poststed" value="" id="poststed">
+       <span>Poststedet har feil format, skal være bokstaver eller ('.', '-' ,mellomrom).</span>
+
 
        <label for="telefon">Telefon</label>
        <input type="text" name="telefon" value="" id="telefon">
+       <span>Telefonnummeret har feil format, skal være 8 siffer</span>
+
 
        <div id="type-øvelse">
 
@@ -118,9 +130,6 @@
 
        <input type="submit" name="register" value="Register">
        <?php
-
-
-
        if(isset($_REQUEST["register"]))
         {
           $oveslesID =(int)$_REQUEST['ovelseInfo'];
@@ -149,8 +158,6 @@
                     $nasjinalitet=$utover->getNasjon();
                     $øvelsesId = $utover->getØvelsId();
                     $utover->settInnData($navn,$etternavn,$adresse,$postnr,$poststed,$telefon,$øvelsesId,$nasjinalitet);
-
-
 
                   }
 

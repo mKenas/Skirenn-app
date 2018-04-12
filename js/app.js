@@ -24,16 +24,43 @@ radio[1].addEventListener("click",()=>{
 });
 
 
-function testFornavn(fornavn){
-  var regex = /^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/;
-  if (!regex.test(fornavn)){
-    alert ("Navnet har feil format, skal være bokstaver eller ('.', '-' ,mellomrom)");
+
+
+
+function showOrHideTip(show, element) {
+  if (show) {
+    element.style.display = "inherit";
+  } else {
+    element.style.display = "none";
   }
 }
 
-function testEtternavn(etternavn){
-  var regex = /^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/;
-  if (!regex.test(etternavn)){
-    alert ("Etternavnet har feil format, skal være bokstaver eller ('.', '-' ,mellomrom)");
-  }
+function testNavn(navn){
+  return /^[a-zA-ZæøåÆØÅ\ \.\-]{2,50}$/.test(navn);
 }
+
+function testAdresse(adresse){
+  return /^[0-9a-zA-ZæøåÆØÅ\ \.\-\,]{2,50}$/.test(adresse);
+}
+
+function testPostnr(postnr){
+  return /^[0-9a-zA-ZæøåÆØÅ\ \.\-\,]{2,50}$/.test(postnr);
+}
+
+
+
+fornavn.addEventListener("input", e => {
+    const text = e.target.value;
+    const valid = testNavn(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTip(showTip, tooltip);
+});
+
+etterNavn.addEventListener("input", e => {
+    const text = e.target.value;
+    const valid = testNavn(text);
+    const showTip = text !== "" && !valid;
+    const tooltip = e.target.nextElementSibling;
+    showOrHideTip(showTip, tooltip);
+});
