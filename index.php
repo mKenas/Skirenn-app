@@ -10,8 +10,6 @@
   $erInnlogget = isset($_SESSION["erInnlogget"]);
   if($erInnlogget){
 
-
-
   }
   ?>
 <!DOCTYPE html>
@@ -26,40 +24,38 @@
         <a href="vis_utover.php">Vis Utøvere</a>
         <a href="vis_ovelse.php">Øvelser</a>
         <div class="registert">
-          <?php
-            if ($erInnlogget){
-              echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
-              echo "<a href='Logg_ut.php'>Logg ut</a>";
-
-
-            }
-            else {
-              echo '<a href="Logg_inn.php">Logg inn</a>';
-              echo '<a href="Register.php">Register</a>';
-            }
-           ?>
+        <?php
+          if ($erInnlogget){
+            echo "<span class = 'bruker'> Innlogget som " . $_SESSION["brukerNavn"] . "</span>";
+            echo "<a href='Logg_ut.php'>Logg ut</a>";
+          }
+          else {
+            echo '<a href="Logg_inn.php">Logg inn</a>';
+            echo '<a href="Register.php">Register</a>';
+          }
+        ?>
         </div>
       </div>
    </head>
    <body>
      <h2>Skirenn Registeret</h2>
      <form class="myform" action="" method="post">
-    <p class="element">
-       <label for="fornavn">Fornavn</label> <br>
-       <input type="text" name="fornavn" value="" id="fornavn" size="45">
-       <span>Navnet har feil format, skal inneholde bokstaver eller '.', '-' ,eller mellomrom</span>
+      <p class="element">
+         <label for="fornavn">Fornavn</label> <br>
+         <input type="text" name="fornavn" value="" id="fornavn" size="45">
+         <span class = 'validering'>Navnet har feil format, skal inneholde bokstaver eller '.', '-' ,eller mellomrom</span>
       </p>
       <p class="element">
        <label for="etternavn">Etternavn</label><br>
        <input type="text" name="etternavn" value="" id="etternavn" size="45">
-       <span>Etternavnet har feil format, skal inneholde bokstaver eller '.', '-' eller mellomrom</span>
-     </p>
-       <div class="person-type">
-         <label for="">Jeg er: </label>
-         <label for="">Publikum</label>
-         <input type="radio" name="persontype" value="Publikum" id="radio1"checked >
-          <label for="">Utøver</label>
+       <span class = 'validering'>Etternavnet har feil format, skal inneholde bokstaver eller '.', '-' eller mellomrom</span>
+      </p>
 
+      <div class="person-type">
+       <label for="">Jeg er: </label>
+       <label for="">Publikum</label>
+       <input type="radio" name="persontype" value="Publikum" id="radio1"checked >
+       <label for="">Utøver</label>
          <?php
            if ($erInnlogget){
              echo  '<input type="radio" name="persontype" value="Utøver" id="radio2">';
@@ -70,6 +66,7 @@
            }
           ?>
        </div>
+       <br>
 
         <div id="bilett-type">
          <label for="">Bilett type </label>
@@ -88,25 +85,28 @@
             <option value="danmark">Danmark</option>
            </select>
         </div>
-       <label for="adresse">Adresse</label>
-       <input type="text" name="adresse" value="" id="adresse">
-       <span>Adressen har feil format, skal inneholder bokstaver, tall og mellomrom.</span>
+       <p class="element">
+         <label for="adresse">Adresse</label><br>
+         <input type="text" name="adresse" value="" id="adresse" size="45">
+         <span class = 'validering'>Adressen har feil format, skal inneholder bokstaver, tall og mellomrom.</span>
+       </p>
+       <p class="element">
+         <label for="postnr">PostNr</label><br>
+         <input type="text" name="postnr" value="" id="postnr"size="45">
+         <span class = 'validering'>PostNummer har feil format, skal være 4 siffert tall.</span>
+       </p>
 
+       <p class="element">
+         <label for="poststed">Poststed</label><br>
+         <input type="text" name="poststed" value="" id="poststed"size="45">
+         <span class = 'validering'>Poststedet har feil format, skal være bokstaver eller ('.', '-' ,mellomrom).</span>
+       </p>
 
-       <label for="postnr">PostNr</label>
-       <input type="text" name="postnr" value="" id="postnr">
-       <span>PostNummer har feil format, skal være 4 siffert tall.</span>
-
-
-       <label for="poststed">Poststed</label>
-       <input type="text" name="poststed" value="" id="poststed">
-       <span>Poststedet har feil format, skal være bokstaver eller ('.', '-' ,mellomrom).</span>
-
-
-       <label for="telefon">Telefon</label>
-       <input type="text" name="telefon" value="" id="telefon">
-       <span>Telefonnummeret har feil format, skal være 8 siffer</span>
-
+       <p class="element">
+         <label for="telefon">Telefon</label><br>
+         <input type="text" name="telefon" value="" id="telefon"size="45">
+         <span class = 'validering'>Telefonnummeret har feil format, skal være 8 siffer</span>
+       </p>
 
        <div id="type-øvelse">
 
@@ -118,7 +118,7 @@
              if ($res->num_rows >0){
                while ($rad =$res->fetch_assoc()) {
 
-                 echo "<option name='radio' value='" . $rad['ØvelsId']. "'>" . $rad['Type'] ." - ". $rad['Sted'] ." - ". $rad['Dato'] . "</option>";
+                echo "<option name='radio' value='" . $rad['ØvelsId']. "'>" . $rad['Type'] ." - ". $rad['Sted'] ." - ". $rad['Dato'] . "</option>";
                }
              }
 
@@ -183,7 +183,6 @@
         ?>
 
      </form>
-
-    <script src="js/app.js"></script>
+    <script src="js/index.js"></script>
    </body>
  </html>

@@ -17,7 +17,7 @@ $erInnlogget = isset($_SESSION["erInnlogget"]);
        <div class="registert">
          <?php
            if ($erInnlogget){
-             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
+             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["brukerNavn"] . "</span>";
              echo "<a href='Logg_ut.php'>Logg ut</a>";
 
 
@@ -45,7 +45,7 @@ $erInnlogget = isset($_SESSION["erInnlogget"]);
       </tr>
 
       <?php
-        
+
         $ingendata= false;
         $foresporring = "select Fornavn, Etternavn, Adresse, PostNum, Poststed, Telefonnr,Type,Sted,Dato, BillettType ";
         $foresporring .= "from Person , Publikum, Øvels WHERE Person.PersonId = Publikum.PersonId ";
@@ -77,6 +77,6 @@ $erInnlogget = isset($_SESSION["erInnlogget"]);
         }
         ?>
 
-      <script src="js/app.js"></script>
+      <script src="js/index.js"></script>
   </body>
 </html>

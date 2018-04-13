@@ -17,7 +17,7 @@ $erInnlogget = isset($_SESSION["erInnlogget"]);
        <div class="registert">
          <?php
            if ($erInnlogget){
-             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["Bruker"] . "</span>";
+             echo "<span class = 'bruker'> Innlogget som " . $_SESSION["brukerNavn"] . "</span>";
              echo "<a href='Logg_ut.php'>Logg ut</a>";
 
 

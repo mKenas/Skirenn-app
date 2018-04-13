@@ -1,7 +1,3 @@
-
-
-
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +16,6 @@ CREATE TABLE `Øvels` (
   `Sted` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ØvelsId`))ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE `Person` (
   `PersonId` INT NOT NULL AUTO_INCREMENT,
   `Fornavn` VARCHAR(45) NOT NULL,
@@ -36,7 +31,6 @@ CREATE TABLE `Person` (
   ON DELETE SET NULL )
   ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
 CREATE TABLE `Publikum` (
   `PublikumId` INT NOT NULL AUTO_INCREMENT ,
   `BillettType` VARCHAR(45) NOT NULL,
@@ -46,7 +40,6 @@ CREATE TABLE `Publikum` (
   references Person(`PersonId`)
   ON DELETE SET NULL)
   ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 CREATE TABLE `Utøver` (
   `UtøverId` INT NOT NULL AUTO_INCREMENT,
@@ -58,7 +51,6 @@ CREATE TABLE `Utøver` (
   ON DELETE SET NULL)
   ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
   CREATE TABLE `Bruker` (
     `BrukerId` INT NOT NULL AUTO_INCREMENT,
     `BrukerNavn` VARCHAR(45) NOT NULL,
@@ -66,14 +58,11 @@ CREATE TABLE `Utøver` (
     PRIMARY KEY (`BrukerId`))
     ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
   INSERT INTO `Øvels` (`ØvelsId`, `Dato`, `Type`, `Sted`)
   VALUES (NULL, '2018-04-01 09:00:00', 'Alpint', 'Oslo'),
   (NULL, '2018-05-16 08:00:00', 'Hopp', 'Bergen'),
   (NULL, '2018-06-08 16:00:00', 'Slalom', 'Tromsø'),
   (NULL, '2018-07-15 11:00:00', 'Langrenn', 'Finnmark');
-
 
   INSERT INTO `Person` (`PersonId`, `Fornavn`, `Etternavn`, `Adresse`, `PostNum`, `Poststed`, `Telefonnr`, `ØvelsesId`)
   VALUES (NULL, 'Mohamad', 'Kenas', 'Refstadveien', '0589', 'Oslo', '41116333', 1),
@@ -97,8 +86,6 @@ CREATE TABLE `Utøver` (
   (NULL, 'Norge', 6),
     (NULL, 'Sverige', 7),
   (NULL, 'Danmark', 8);
-
-
 
   INSERT INTO `Bruker` (`BrukerId`, `BrukerNavn`, `Passord`)
   VALUES (NULL, 'sondre', SHA('morgedal'));
